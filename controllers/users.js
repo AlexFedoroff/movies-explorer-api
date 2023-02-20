@@ -9,24 +9,16 @@ const UnauthorizedError = require('../utils/unauthorized-error');
 const { OK_STATUS } = require('../utils/constants');
 
 const prepareUserData = ({
-  name, about, avatar, email, _id,
+  email, name, _id,
 }) => ({
-  _id, name, about, avatar, email,
+  email, name, _id,
 });
-
-const getUsers = (_, res, next) => {
-  User.find({})
-    .then((users) => res.status(OK_STATUS).send({ users }))
-    .catch((err) => next(err));
-};
 
 const createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
     .then((hash) => User.create({
-      name: req.body.name,
-      about: req.body.about,
-      avatar: req.body.avatar,
       email: req.body.email,
+      name: req.body.name,
       password: hash,
     }))
     .then((user) => {
@@ -83,17 +75,13 @@ const getUserById = (userId, res, next) => {
     });
 };
 
-const getUser = (req, res, next) => {
-  getUserById(req.params.userId, res, next);
-};
-
 const getCurrentUser = (req, res, next) => {
   getUserById(req.user._id, res, next);
 };
 
 const updateProfile = (req, res, next) => {
-  const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
+  const { name, email } = req.body;
+  User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Пользователь с указанным id не найден');
@@ -109,31 +97,10 @@ const updateProfile = (req, res, next) => {
     });
 };
 
-const updateAvatar = (req, res, next) => {
-  const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь с указанным id не найден');
-      }
-      res.status(OK_STATUS).send(user);
-    })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestError('Некорректный запрос'));
-      } else {
-        next(err);
-      }
-    });
-};
-
 module.exports = {
-  getUsers,
   createUser,
   login,
   logout,
-  getUser,
   getCurrentUser,
   updateProfile,
-  updateAvatar,
 };

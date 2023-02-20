@@ -2,26 +2,53 @@ const BadRequestError = require('../utils/bad-request-error');
 const NotFoundError = require('../utils/not-found-error');
 const ForbiddenError = require('../utils/forbidden-error');
 
-const Card = require('../models/movie');
+const Movie = require('../models/movie');
 const { OK_STATUS } = require('../utils/constants');
 
 const prepareMovieData = ({
-  country, director, duration, year, description, image, trailerLink, thumbnail, owner, movieId, nameRU, nameEN,
+  country, director, duration, year, description, image,
+  trailerLink, thumbnail, owner, movieId, nameRU, nameEN,
 }) => ({
-  country, director, duration, year, description, image, trailerLink, thumbnail, owner, movieId, nameRU, nameEN,
+  country,
+  director,
+  duration,
+  year,
+  description,
+  image,
+  trailerLink,
+  thumbnail,
+  owner,
+  movieId,
+  nameRU,
+  nameEN,
 });
 
 const getMovies = (_, res, next) => {
-  Move.find({})
+  Movie.find({})
     .then((movies) => res.send(movies.map(prepareMovieData)))
     .catch(next);
 };
 
 const createMovie = (req, res, next) => {
-  const { country, director, duration, year, description, image, trailerLink, thumbnail, movieId, nameRU, nameEN, } = req.body;
+  const {
+    country, director, duration, year, description, image,
+    trailerLink, thumbnail, movieId, nameRU, nameEN,
+  } = req.body;
   const owner = req.user._id;
   Movie.create({
-    country, director, duration, year, description, image, trailerLink, thumbnail, owner, movieId, nameRU, nameEN, runValidators: true,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    owner,
+    movieId,
+    nameRU,
+    nameEN,
+    runValidators: true,
   })
     .then((movie) => res.status(OK_STATUS).send(prepareMovieData(movie)))
     .catch((err) => {
@@ -34,7 +61,7 @@ const createMovie = (req, res, next) => {
 };
 
 const deleteMovie = (req, res, next) => {
-  Movie.findByIdAndDelete(req.params.movieId)
+  Movie.findOneAndDelete({ movieId: req.params.movieId })
     .then((movie) => {
       if (!movie) {
         next(new NotFoundError('Фильм с указанным id не найден'));
@@ -42,7 +69,7 @@ const deleteMovie = (req, res, next) => {
       if (!movie.owner._id.equals(req.user._id)) {
         throw new ForbiddenError('У вас нет прав на удаление этого фильма');
       } else {
-        res.status(OK_STATUS).send(movie);
+        res.status(OK_STATUS).send({ movieId: req.params.movieId });
       }
     })
     .catch((err) => {

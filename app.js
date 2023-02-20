@@ -11,7 +11,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const corsOrigins = ['http://localhost:3000', 'http://alexfedoroff.nomoredomainsclub.ru', 'https://alexfedoroff.nomoredomainsclub.ru'];
 
-const { PORT = 2800 } = process.env;
+const { PORT = 2900 } = process.env;
 const app = express();
 
 app.use(requestLogger);
@@ -49,7 +49,7 @@ app.use(error);
 
 mongoose.set('strictQuery', false);
 mongoose
-  .connect('mongodb://localhost:27017/mestodb', {
+  .connect('mongodb://localhost:27017/bitfilmsdb', {
     useUnifiedTopology: true, useNewUrlParser: true, autoIndex: true,
   });
 

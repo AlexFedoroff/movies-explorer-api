@@ -13,7 +13,7 @@ const registerValidate = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
-    name: Joi.string().min(2).max(30), 
+    name: Joi.string().min(2).max(30),
   }),
 });
 
@@ -30,13 +30,19 @@ const validateGetUser = celebrate({
   }),
 });
 
-const createMoviedValidate = celebrate({
+const createMovieValidate = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
+    country: Joi.string().required().min(2).max(64),
+    director: Joi.string().required().min(2).max(64),
+    duration: Joi.number().required(),
+    year: Joi.string().required().min(2).max(64),
+    description: Joi.string().required().min(2).max(1024),
     image: Joi.string().required().pattern(urlRegEx),
     trailerLink: Joi.string().required().pattern(urlRegEx),
     thumbnail: Joi.string().required().pattern(urlRegEx),
-    owner: Joi.string().required().length(24).hex(),
+    movieId: Joi.string().hex().length(24),
+    nameRU: Joi.string().required().min(2).max(255),
+    nameEN: Joi.string().required().min(2).max(255),
   }),
 });
 
@@ -51,6 +57,6 @@ module.exports = {
   registerValidate,
   updateProfileValidate,
   validateGetUser,
-  createMoviedValidate,
+  createMovieValidate,
   movieIdValidate,
 };
