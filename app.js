@@ -9,7 +9,7 @@ const router = require('./routes/index');
 const error = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const corsOrigins = ['http://localhost:3000', 'http://alexfedoroff.nomoredomainsclub.ru', 'https://alexfedoroff.nomoredomainsclub.ru'];
+const corsOrigins = ['http://localhost:3000', 'http://alexfedoroff.students.nomoredomains.work', 'https://alexfedoroff.students.nomoredomains.work'];
 
 const { PORT = 2900 } = process.env;
 const app = express();
@@ -54,5 +54,5 @@ mongoose
   });
 
 app.listen(PORT, () => {
-  console.log(`The App v.0.5.0 is running and listening to port ${PORT}`);
+  console.log(`The App is running and listening to port ${PORT}`);
 });
