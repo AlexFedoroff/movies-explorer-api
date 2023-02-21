@@ -9,7 +9,7 @@ const router = require('./routes/index');
 const error = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const corsOrigins = ['http://localhost:3000', 'http://alexfedoroff.students.nomoredomains.work', 'https://alexfedoroff.students.nomoredomains.work'];
+const corsOrigins = ['http://localhost:3000', 'http://api.alexfedoroff.students.nomoredomainsclub.ru', 'http://alexfedoroff.students.nomoredomains.work', 'https://alexfedoroff.students.nomoredomains.work'];
 
 const { PORT = 2900 } = process.env;
 const app = express();
@@ -21,7 +21,6 @@ app.use((req, res, next) => {
   const { origin } = req.headers;
   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
   const requestHeaders = req.headers['access-control-request-headers'];
-  console.log(req);
   if (corsOrigins.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
     res.header('Access-Control-Allow-Credentials', true);
