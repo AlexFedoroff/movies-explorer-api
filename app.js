@@ -9,7 +9,7 @@ const router = require('./routes/index');
 const error = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const corsOrigins = ['http://localhost:3000', 'http://api.alexfedoroff.students.nomoredomainsclub.ru', 'http://alexfedoroff.students.nomoredomains.work', 'https://alexfedoroff.students.nomoredomains.work'];
+const corsOrigins = ['http://localhost:3000', 'api.alexfedoroff.students.nomoredomainsclub.ru', 'http://api.alexfedoroff.students.nomoredomainsclub.ru', 'http://alexfedoroff.students.nomoredomains.work', 'https://alexfedoroff.students.nomoredomains.work'];
 
 const { PORT = 2900 } = process.env;
 const app = express();
