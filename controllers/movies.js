@@ -68,7 +68,7 @@ const deleteMovie = (req, res, next) => {
       if (!movie.owner.equals(ownerId)) {
         return next(new ForbiddenError('У вас нет прав на удаление этого фильма'));
       }
-      return Movie.remove()
+      return movie.remove()
         .then(() => res.status(200).send(movie));
     })
     .catch((err) => {
