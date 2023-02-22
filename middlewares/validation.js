@@ -12,14 +12,14 @@ const loginValidate = celebrate({
 const registerValidate = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
-    name: Joi.string().min(2).max(30),
+    password: Joi.string().required(),
+    name: Joi.string().min(2).max(30).required(),
   }),
 });
 
 const updateProfileValidate = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().min(2).max(30).required(),
     email: Joi.string().required().email(),
   }),
 });
@@ -48,7 +48,7 @@ const createMovieValidate = celebrate({
 
 const movieIdValidate = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.number().required(),
+    movieId: Joi.string().required().length(24).hex(),
   }),
 });
 

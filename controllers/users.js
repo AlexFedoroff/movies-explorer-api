@@ -5,6 +5,7 @@ const BadRequestError = require('../utils/bad-request-error');
 const ConflictError = require('../utils/conflict-error');
 const NotFoundError = require('../utils/not-found-error');
 const UnauthorizedError = require('../utils/unauthorized-error');
+const { EMAIL_DBL_ERR_MSG, BAD_REQUEST_ERROR_MSG, USER_NOT_FOUND_ERROR_MSG } = require('../utils/constants');
 
 const { OK_STATUS } = require('../utils/constants');
 
@@ -26,9 +27,9 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Некорректный запрос'));
+        next(new BadRequestError(BAD_REQUEST_ERROR_MSG));
       } else if (err.code === 11000) {
-        next(new ConflictError('Такой email уже используется'));
+        next(new ConflictError(EMAIL_DBL_ERR_MSG));
       } else {
         next(err);
       }
@@ -39,7 +40,7 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      if (!user) throw new NotFoundError('Пользователь не найден!');
+      if (!user) throw new NotFoundError(USER_NOT_FOUND_ERROR_MSG);
       const token = createToken({ _id: user._id });
       res
         .cookie('jwt', token, {
@@ -62,13 +63,13 @@ const getUserById = (userId, res, next) => {
   User.findById(userId)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь с таким id не найден');
+        throw new NotFoundError(USER_NOT_FOUND_ERROR_MSG);
       }
       return res.status(OK_STATUS).send(prepareUserData(user));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Некорректный id пользователя'));
+        next(new BadRequestError(BAD_REQUEST_ERROR_MSG));
       } else {
         next(err);
       }
@@ -84,13 +85,15 @@ const updateProfile = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь с указанным id не найден');
+        throw new NotFoundError(USER_NOT_FOUND_ERROR_MSG);
       }
       res.status(OK_STATUS).send(user);
     })
     .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные профиля'));
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError(BAD_REQUEST_ERROR_MSG));
+      } else if (err.code === 11000) {
+        next(new ConflictError(EMAIL_DBL_ERR_MSG));
       } else {
         next(err);
       }

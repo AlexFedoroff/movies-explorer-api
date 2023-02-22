@@ -10,8 +10,8 @@ const { limiter } = require('./middlewares/limiter');
 const router = require('./routes/index');
 const error = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { MONGODB_URL } = require('./utils/config');
 
-// const corsOrigins = ['http://localhost:2900', 'http://localhost:80', 'http://localhost:3000', 'api.alexfedoroff.students.nomoredomainsclub.ru', 'http://alexfedoroff.students.nomoredomains.work', 'https://alexfedoroff.students.nomoredomains.work'];
 const corsOrigins = ['http://localhost:3000', 'http://alexfedoroff.students.nomoredomains.work', 'https://alexfedoroff.students.nomoredomains.work'];
 const { PORT = 2900 } = process.env;
 const app = express();
@@ -53,10 +53,10 @@ app.use(error);
 
 mongoose.set('strictQuery', false);
 mongoose
-  .connect('mongodb://localhost:27017/bitfilmsdb', {
+  .connect(MONGODB_URL, {
     useUnifiedTopology: true, useNewUrlParser: true, autoIndex: true,
   });
 
 app.listen(PORT, () => {
-  console.log(`The App (v.0.9.021) is running and listening to port ${PORT}`);
+  console.log(`The App (v.0.9.023) is running and listening to port ${PORT}`);
 });
