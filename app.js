@@ -11,7 +11,8 @@ const router = require('./routes/index');
 const error = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const corsOrigins = ['http://localhost:2900', 'http://localhost:80', 'http://localhost:3000', 'api.alexfedoroff.students.nomoredomainsclub.ru', 'http://alexfedoroff.students.nomoredomains.work', 'https://alexfedoroff.students.nomoredomains.work'];
+// const corsOrigins = ['http://localhost:2900', 'http://localhost:80', 'http://localhost:3000', 'api.alexfedoroff.students.nomoredomainsclub.ru', 'http://alexfedoroff.students.nomoredomains.work', 'https://alexfedoroff.students.nomoredomains.work'];
+const corsOrigins = ['http://localhost:3000', 'http://alexfedoroff.students.nomoredomains.work', 'https://alexfedoroff.students.nomoredomains.work'];
 const { PORT = 2900 } = process.env;
 const app = express();
 
@@ -35,13 +36,13 @@ app.use((req, res, next) => {
   }
   return next();
 });
-
+/*
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
-
+*/
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(limiter);
@@ -57,5 +58,5 @@ mongoose
   });
 
 app.listen(PORT, () => {
-  console.log(`The App (v.0.902) is running and listening to port ${PORT}`);
+  console.log(`The App (v.0.9.021) is running and listening to port ${PORT}`);
 });

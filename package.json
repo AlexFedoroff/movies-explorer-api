@@ -1,7 +1,7 @@
 {
   "name": "movies-explorer-api",
-  "version": "0.1.0",
-  "description": "Проект Mesto, бэкенд",
+  "version": "0.9.021",
+  "description": "Дипломная работа YP, бэкенд",
   "main": "app.js",
   "scripts": {
     "lint": "npx eslint .",
@@ -15,9 +15,9 @@
   "author": "Alex Fedoroff",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AlexFedoroff/express-mesto-gha/issues"
+    "url": "https://github.com/AlexFedoroff/movies-explorer-api"
   },
-  "homepage": "https://github.com/AlexFedoroff/express-mesto-gha#readme",
+  "homepage": "https://github.com/AlexFedoroff/movies-explorer-api",
   "devDependencies": {
     "eslint": "^8.30.0",
     "eslint-config-airbnb-base": "^15.0.0",
