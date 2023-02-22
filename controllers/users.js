@@ -40,14 +40,12 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      if (!user) throw new NotFoundError(USER_NOT_FOUND_ERROR_MSG);
       const token = createToken({ _id: user._id });
       res
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7, httpOnly: true, sameSite: 'none', secure: true,
         })
-        .send(prepareUserData(user))
-        .end();
+        .send(prepareUserData(user));
     })
     .catch((err) => next(new UnauthorizedError(err.message)));
 };

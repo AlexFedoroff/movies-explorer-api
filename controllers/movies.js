@@ -7,9 +7,10 @@ const Movie = require('../models/movie');
 const { OK_STATUS } = require('../utils/constants');
 
 const prepareMovieData = ({
-  country, director, duration, year, description, image,
+  _id, country, director, duration, year, description, image,
   trailerLink, thumbnail, owner, movieId, nameRU, nameEN,
 }) => ({
+  _id,
   country,
   director,
   duration,
@@ -49,7 +50,6 @@ const createMovie = (req, res, next) => {
     movieId,
     nameRU,
     nameEN,
-    runValidators: true,
   })
     .then((movie) => res.status(OK_STATUS).send(prepareMovieData(movie)))
     .catch((err) => {
