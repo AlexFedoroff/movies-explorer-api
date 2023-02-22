@@ -4,14 +4,10 @@ const mongoose = require('mongoose');
 const movieSchema = new mongoose.Schema({
   country: {
     type: String,
-    minlength: 2,
-    maxlength: 64,
     required: true,
   },
   director: {
     type: String,
-    minlength: 2,
-    maxlength: 64,
     required: true,
   },
   duration: {
@@ -20,14 +16,10 @@ const movieSchema = new mongoose.Schema({
   },
   year: {
     type: String,
-    minlength: 2,
-    maxlength: 64,
     required: true,
   },
   description: {
     type: String,
-    minlength: 2,
-    maxlength: 1024,
     required: true,
   },
   image: {
@@ -56,12 +48,10 @@ const movieSchema = new mongoose.Schema({
   },
   nameRU: {
     type: String,
-    maxlength: 255,
     required: true,
   },
   nameEN: {
     type: String,
-    maxlength: 255,
     required: true,
   },
   createdAt: {
