@@ -62,6 +62,27 @@ const createMovie = (req, res, next) => {
 
 const deleteMovie = (req, res, next) => {
   const ownerId = req.user._id;
+  Movie.findById(req.params.userMovieId)
+    .orFail(() => new NotFoundError('Фильм с указанным id не найден'))
+    .then((movie) => {
+      if (!movie.owner.equals(ownerId)) {
+        return next(new ForbiddenError('У вас нет прав на удаление этого фильма'));
+      }
+      return movie.remove()
+        .then(() => res.status(200).send(movie));
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Некорректный id фильма'));
+      } else {
+        next(err);
+      }
+    });
+};
+
+/*
+const deleteMovie = (req, res, next) => {
+  const ownerId = req.user._id;
   Movie.findOneAndDelete({ movieId: req.params.movieId })
     .then((movie) => {
       if (!movie) {
@@ -81,7 +102,7 @@ const deleteMovie = (req, res, next) => {
       }
     });
 };
-
+*/
 module.exports = {
   createMovie,
   getMovies,
