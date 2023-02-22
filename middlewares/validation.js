@@ -32,23 +32,23 @@ const validateGetUser = celebrate({
 
 const createMovieValidate = celebrate({
   body: Joi.object().keys({
-    country: Joi.string().required().min(2).max(64),
-    director: Joi.string().required().min(2).max(64),
+    country: Joi.string().required(),
+    director: Joi.string().required(),
     duration: Joi.number().required(),
-    year: Joi.string().required().min(2).max(64),
-    description: Joi.string().required().min(2).max(1024),
+    year: Joi.string().required(),
+    description: Joi.string(),
     image: Joi.string().required().pattern(urlRegEx),
     trailerLink: Joi.string().required().pattern(urlRegEx),
     thumbnail: Joi.string().required().pattern(urlRegEx),
     movieId: Joi.number().required(),
-    nameRU: Joi.string().required().min(2).max(255),
-    nameEN: Joi.string().required().min(2).max(255),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
   }),
 });
 
 const movieIdValidate = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().hex().length(24),
+    movieId: Joi.number().required(),
   }),
 });
 
